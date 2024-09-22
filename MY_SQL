@@ -1,0 +1,171 @@
+create database demo;
+
+USE demo;
+
+show database;
+
+create table customer 
+(
+   custid varchar(6) PRIMARY KEY,
+   fname  varchar(20),
+   mname  varchar(20),
+   ltname varchar(20),
+   city varchar(20),
+   age varchar(5),
+   mobileno varchar(10),
+   occupation varchar(20),
+   dob DATE
+);
+   
+
+insert into customer values('911002','gopi','Ramanjineyulu','Pasam','Coimbatore','20','9182117269','Student','2003-11-09');
+insert into customer values('911003','amrnadh','Ramanjineyulu','Pasam','Coimbatore','20','9182117269','Student','2003-11-09');
+insert into customer values('911004','hari','Ramanjineyulu','Pasam','Coimbatore','20','9182117269','Student','2003-11-09');
+insert into customer values('911004','prudhvi','Ramanjineyulu','g','Coimbatore','19','9182117269','Student','2003-11-09');
+insert into customer values('911004','malli','Ramanjineyulu','m','Coimbatore','19','9182117269','Student','2003-11-09');
+
+select  *from customer;
+SHOW  tables;
+CREATE TABLE account (
+  acnumber VARCHAR(9),
+  custId VARCHAR(7),
+  bId VARCHAR(6),
+  open_balance INT,
+  aod DATE,
+  atype VARCHAR(20),
+  astatus VARCHAR(20),
+  CONSTRAINT account_acnumber_pk PRIMARY KEY (acnumber)
+);
+
+insert into account values('359548031','9000101','RBI000','1000','2024-08-30','Savings','Active');
+insert into account values('359548032','9000102','RBI000','1000','2024-08-30','Savings','Active');
+insert into account values('359548033','9000103','RBI000','1000','2024-08-30','Savings','Active');
+insert into account values('359548034','9000104','RBI000','1000','2024-08-30','Savings','Active');
+insert into account values('359548035','9000105','RBI000','1000','2024-08-30','Savings','Active');
+insert into account values('359548036','911004','RBI000','1000','2024-08-30','Savings','Active');
+
+select *from account;
+show tables;
+select *FROM customer 
+INNER JOIN account ON account.custId = customer.custId;
+
+select *FROM customer 
+left join account ON account.custId = customer.custId;
+
+select *FROM customer 
+right join account ON account.custId = customer.custId;
+
+select *FROM customer 
+left join account ON account.custId = customer.custId
+union 
+select *FROM customer 
+right join account ON account.custId = customer.custId;
+
+select count(*),  fname from customer group by fname;
+
+select count(*), astatus from account group by astatus;
+
+select count(fname), city from customer group by city;
+
+select count(astatus), custid from account group by custid;
+
+select count(astatus), acnumber from account group by acnumber;
+
+select count(fname), city from customer group by city having count(fname)>2;
+
+select count(age), fname from customer group by fname having count(age)>21;
+
+select count(age), fname from customer group by fname having count(age)<2;
+
+select min(age) from customer;
+
+select max(age) from customer; 
+
+create table mialma 
+(
+name varchar(30),
+custid varchar(6) PRIMARY KEY,
+age varchar(10),
+dob DATE,
+mobileno varchar(10)
+);
+
+create table ram 
+(
+name varchar(30),
+custid varchar(6) PRIMARY KEY,
+age varchar(10),
+dob DATE,
+mobileno varchar(10)
+);
+
+insert into ram values("Ram","928001","20",'2003-11-09',"9182117269");
+insert into ram values("Malli","928002","19","2003-11-09","9182117269");
+insert into ram values("Prudhvi","928003","21","2003-11-09","9182117269");
+insert into ram values("Hari","928004","21","2003-11-20","9182117269");
+insert into ram values("Gopi","928005","21","2003-11-18","9182117269");
+insert into ram values("Amar","928006","21","2003-11-25","9182117269");
+
+insert into mialma  select *from ram where age>=21;
+
+
+
+select *from mialma;
+
+SET SQL_SAFE_UPDATES = 0;
+
+
+UPDATE mialma
+SET age = age + 2
+WHERE age IN (SELECT age FROM ram WHERE age >= 21);
+
+update ram 
+set age = age + 1
+where age in (select age from mialma where age>=20);
+
+select *from ram;
+select *from mialma;
+
+delete from ram
+where custid in (select custid from mialma where age>=20);
+ 
+ select *from ram;
+ 
+ select *from mialma;
+
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host = 'localhost',
+    user = 'root',
+    password = 'Ram143@230589'
+)
+print(mydb)
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host = 'localhost',
+    user = 'root',
+    password = 'Ram143@230589',
+    database = 'demo'
+)
+
+mycursor = mydb.cursor()
+mycursor.excute("create table rama(name varchar(20),age varchar(10), address varchar(40))")
+
+
+#for showing tables 
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host = 'localhost',
+    user = 'root',
+    password = 'Ram143@230589',
+    database = 'demo'
+)
+mycursor = mydb.cursor()
+mycursor.excute ('show tables')
+for x in range mycursor :
+   print(x)
